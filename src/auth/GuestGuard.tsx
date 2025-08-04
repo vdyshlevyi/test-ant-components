@@ -1,8 +1,9 @@
 import { Navigate } from "react-router-dom"
 import { ACCESS_TOKEN_KEY } from "./constants"
 import GuestLayout from "../layouts/GuestLayout"
+import type { ReactNode } from "react"
 
-export function GuestGuard({ children }: { children: React.ReactNode }) {
+export function GuestGuard({ children }: { children: ReactNode }) {
   const user = localStorage.getItem(ACCESS_TOKEN_KEY)
 
   if (user) {

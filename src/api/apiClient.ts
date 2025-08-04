@@ -2,12 +2,12 @@ import { ACCESS_TOKEN_KEY } from "../auth/constants"
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 
-const request = async <TResponse, TBody = undefined>(
+const request = async <TResponse, TBody = unknown>(
   method: HttpMethod,
   url: string,
   body?: TBody,
 ): Promise<TResponse> => {
-  const headers: HeadersInit = { "Content-Type": "application/json" }
+  const headers: Record<string, string> = { "Content-Type": "application/json" }
 
   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
   if (accessToken) {
@@ -37,17 +37,17 @@ export const apiClient = {
   post: <TResponse, TRequest = unknown>(
     url: string,
     body?: TRequest,
-  ): Promise<TResponse> => request<TResponse>("POST", url, body),
+  ): Promise<TResponse> => request<TResponse, TRequest>("POST", url, body),
 
   put: <TResponse, TRequest = unknown>(
     url: string,
     body?: TRequest,
-  ): Promise<TResponse> => request<TResponse>("PUT", url, body),
+  ): Promise<TResponse> => request<TResponse, TRequest>("PUT", url, body),
 
   patch: <TResponse, TRequest = unknown>(
     url: string,
     body?: TRequest,
-  ): Promise<TResponse> => request<TResponse>("PATCH", url, body),
+  ): Promise<TResponse> => request<TResponse, TRequest>("PATCH", url, body),
 
   delete: <TResponse>(url: string): Promise<TResponse> =>
     request<TResponse>("DELETE", url),

@@ -13,8 +13,6 @@ import {
   ShoppingCartOutlined,
   DollarOutlined,
   RiseOutlined,
-  MessageOutlined,
-  HeartOutlined,
   MailOutlined,
   IdcardOutlined,
 } from "@ant-design/icons"
@@ -51,33 +49,6 @@ const statsData = [
     prefix: <RiseOutlined />,
     valueStyle: { color: "#722ed1" },
     suffix: "$",
-  },
-]
-
-const recentActivities = [
-  {
-    title: "New user registered",
-    description: "John Doe joined the platform",
-    time: "2 hours ago",
-    avatar: <UserOutlined />,
-  },
-  {
-    title: "Order completed",
-    description: "Order #12001 has been delivered",
-    time: "4 hours ago",
-    avatar: <ShoppingCartOutlined />,
-  },
-  {
-    title: "New review posted",
-    description: "5-star review for Laptop Pro",
-    time: "6 hours ago",
-    avatar: <MessageOutlined />,
-  },
-  {
-    title: "Product liked",
-    description: "Wireless Headphones added to wishlist",
-    time: "8 hours ago",
-    avatar: <HeartOutlined />,
   },
 ]
 

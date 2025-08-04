@@ -26,12 +26,8 @@ export default function LoginPage() {
 
   // Get ready to work with login form
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data)
     auth.login(data.email, data.password)
   }
-
-  console.log("errors", errors)
-  console.log("touchedFields", touchedFields)
 
   return (
     <div className="login-page">

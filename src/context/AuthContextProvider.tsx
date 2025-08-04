@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         URLS.auth.login,
         { email, password },
       )
+      console.log("Login successful:", responseJson)
 
       const newUser: IUser = {
         id: responseJson.id,
@@ -39,6 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const logout = () => {
+    console.log("Logging out user")
     setUser(null)
     localStorage.removeItem("user")
     localStorage.removeItem(ACCESS_TOKEN_KEY)

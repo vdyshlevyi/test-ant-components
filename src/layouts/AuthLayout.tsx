@@ -2,29 +2,24 @@ import React, { useState } from "react"
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
+  DashboardOutlined,
   UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons"
 import { Button, Layout, Menu, theme } from "antd"
+import { useLocation, useNavigate } from "react-router-dom"
 
 const { Header, Sider, Content } = Layout
 
 const MENU_ITEMS = [
   {
-    key: "1",
+    key: "/dashboard",
+    icon: <DashboardOutlined />,
+    label: "Dashboard",
+  },
+  {
+    key: "/users",
     icon: <UserOutlined />,
     label: "Users",
-  },
-  {
-    key: "2",
-    icon: <VideoCameraOutlined />,
-    label: "Videos",
-  },
-  {
-    key: "3",
-    icon: <UploadOutlined />,
-    label: "Uploads",
   },
 ]
 
@@ -34,18 +29,30 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   const [collapsed, setCollapsed] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
+
+  // Get current selected key based on pathname
+  const selectedKeys = [location.pathname]
+
+  // Handle menu item click
+  const handleMenuClick = ({ key }: { key: string }) => {
+    navigate(key)
+  }
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
+        <div className="demo-logo-vertical">Logo</div>
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          selectedKeys={selectedKeys}
           items={MENU_ITEMS}
+          onClick={handleMenuClick}
         />
       </Sider>
       <Layout>
