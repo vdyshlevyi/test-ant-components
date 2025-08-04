@@ -15,7 +15,7 @@ run: ## Run the application
 	pnpm dev
 
 lint: ## Format code with Prettier
-	npx prettier --write .
+	pnpm format
 
 
 eslint: ## Run ESLint check
