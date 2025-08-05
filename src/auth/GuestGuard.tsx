@@ -7,6 +7,7 @@ export function GuestGuard({ children }: { children: ReactNode }) {
   const user = localStorage.getItem(ACCESS_TOKEN_KEY)
 
   if (user) {
+    console.warn("User is already authenticated, redirecting to dashboard.")
     return <Navigate to="/dashboard" replace />
   }
 

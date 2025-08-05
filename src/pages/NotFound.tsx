@@ -1,8 +1,18 @@
+import { Result } from "antd"
+import "./NotFound.css"
+
 export default function NotFoundPage() {
   return (
-    <div>
-      <h1>404 - Page Not Found</h1>
-      <p>The page you are looking for does not exist.</p>
+    <div className="not-found-container">
+      <Result
+        icon={
+          <div className="custom-404-icon">
+            <span className="icon-text">🌌</span>
+          </div>
+        }
+        title="404"
+        subTitle="Oops! The page you are looking for doesn't exist."
+      />
     </div>
   )
 }

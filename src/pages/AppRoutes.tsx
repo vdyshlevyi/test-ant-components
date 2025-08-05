@@ -16,7 +16,7 @@ import { useEffect } from "react"
 let profileFetched = false
 
 export default function AppRoutes() {
-  const { setUser, logout } = useAuth()
+  const { setUser, getAccessToken, logout } = useAuth()
 
   const fetchProfile = async () => {
     if (profileFetched) {
@@ -37,8 +37,8 @@ export default function AppRoutes() {
       )
       const newUser: IUser = {
         id: responseJson.id,
-        first_name: responseJson.first_name || null,
-        last_name: responseJson.last_name || null,
+        first_name: responseJson.first_name,
+        last_name: responseJson.last_name,
         email: responseJson.email,
       }
       // Update user in state and localStorage
@@ -53,21 +53,8 @@ export default function AppRoutes() {
 
   // Load profile on component mount, only if token exists
   useEffect(() => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
-    const savedUser = localStorage.getItem("user")
-
+    const accessToken = getAccessToken()
     if (accessToken && accessToken !== "undefined") {
-      // If there's a saved user, use it first for immediate display
-      if (savedUser && savedUser !== "undefined") {
-        try {
-          const parsedUser = JSON.parse(savedUser)
-          setUser(parsedUser)
-          console.log("Using saved user data")
-        } catch (err) {
-          console.warn("Failed to parse saved user data:", err)
-        }
-      }
-
       // Then fetch fresh data from server
       fetchProfile()
     } else {

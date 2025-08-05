@@ -1,5 +1,5 @@
 import { AuthContext } from "./AuthContext.tsx"
-import { useState, useEffect, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import type { IUser } from "../types/auth"
 import { apiClient } from "../api/apiClient.ts"
 import { URLS } from "../api/urls.ts"
@@ -7,33 +7,77 @@ import type { ILoginResponse } from "../types/responses.ts"
 import { ACCESS_TOKEN_KEY } from "../auth/constants.ts"
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<IUser | null>(null)
-
-  useEffect(() => {
+  const getUser = (): IUser | null => {
     const savedUser = localStorage.getItem("user")
-    if (savedUser && savedUser !== "undefined") setUser(JSON.parse(savedUser))
-  }, [])
+    if (savedUser && savedUser !== "undefined") {
+      try {
+        const parsedUser = JSON.parse(savedUser)
+        
+        // Validate that the parsed user has required properties
+        if (
+          parsedUser && 
+          typeof parsedUser === 'object' &&
+          typeof parsedUser.id === 'number' &&
+          typeof parsedUser.email === 'string' &&
+          parsedUser.email.length > 0
+        ) {
+          return parsedUser as IUser
+        } else {
+          console.warn("Invalid user data in localStorage, clearing:", parsedUser)
+          localStorage.removeItem("user")
+          return null
+        }
+      } catch (err) {
+        console.error("Failed to parse user from localStorage:", err)
+        localStorage.removeItem("user") // Clear corrupted data
+        return null
+      }
+    }
+    return null
+  }
+
+  const setUser = (user: IUser | null) => {
+    if (user) {
+      // Validate user data before storing
+      if (
+        typeof user.id === 'number' &&
+        typeof user.email === 'string' &&
+        user.email.length > 0
+      ) {
+        localStorage.setItem("user", JSON.stringify(user))
+      } else {
+        console.error("Attempted to store invalid user data:", user)
+        localStorage.removeItem("user")
+      }
+    } else {
+      localStorage.removeItem("user")
+    }
+  }
+
+  const getAccessToken = (): string | null => {
+    return localStorage.getItem(ACCESS_TOKEN_KEY)
+  }
+
+  const setAccessToken = (token: string) => {
+    localStorage.setItem(ACCESS_TOKEN_KEY, token)
+  }
 
   const login = async (email: string, password: string) => {
     try {
       const responseJson = await apiClient.post<ILoginResponse>(
         URLS.auth.login,
-        { email, password },
+        { email, password }
       )
-      console.log("Login successful:", responseJson)
-
       const newUser: IUser = {
         id: responseJson.id,
-        first_name: responseJson.first_name || null,
-        last_name: responseJson.last_name || null,
+        first_name: responseJson.first_name,
+        last_name: responseJson.last_name,
         email: responseJson.email,
       }
-      // Update user in state and localStorage
+      // Save user and token to localStorage
       setUser(newUser)
-      localStorage.setItem("user", JSON.stringify(newUser))
-      localStorage.setItem(ACCESS_TOKEN_KEY, responseJson.access_token)
+      setAccessToken(responseJson.access_token)
     } catch (err) {
-      // TODO(Valerii Dyshlevyi): Show some error message to user
       console.error("Login failed:", err)
       throw err
     }
@@ -41,13 +85,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     console.log("Logging out user")
-    setUser(null)
     localStorage.removeItem("user")
     localStorage.removeItem(ACCESS_TOKEN_KEY)
   }
 
+  const contextValue = {
+    user: getUser(), // Always get fresh data from localStorage
+    getUser,
+    setUser,
+    getAccessToken,
+    setAccessToken,
+    login,
+    logout,
+  }
+
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   )

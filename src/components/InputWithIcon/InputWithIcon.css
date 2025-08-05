@@ -11,15 +11,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5em;
+  gap: 1rem; /* 10px - більший проміжок */
   background-color: #1f2029;
-  border-radius: 4px;
-  padding: 0.5em 1em;
+  border-radius: 0.4rem; /* 4px в rem */
+  padding: 1.2rem 1.4rem; /* 12px 14px - більший padding */
 
   .input-icon {
-    height: 1em;
-    width: 1em;
+    height: 1.6rem; /* 16px - більший розмір іконки */
+    width: 1.6rem; /* 16px */
     fill: #ffeba7;
+    flex-shrink: 0; /* Запобігає стисненню іконки */
   }
 
   .input-field {
@@ -28,22 +29,30 @@
     outline: none;
     width: 100%;
     color: #d3d3d3;
+    font-size: 1.4rem; /* 14px - більший текст */
+    line-height: 1.5;
+  }
+
+  .input-field::placeholder {
+    color: rgba(211, 211, 211, 0.6);
+    font-size: 1.4rem; /* 14px */
   }
 }
 
 .field-error {
-  margin-top: 0.25rem;
+  margin-top: 0.5rem; /* Трохи більший відступ */
   .error-message {
     color: #ff4d4d;
-    font-size: 0.75em;
+    font-size: 1.2rem; /* 12px - більший текст помилки */
     margin: 0 0 0.25rem 0;
+    line-height: 1.4;
   }
 }
 
 /*Text*/
 .title {
   margin-bottom: 1rem;
-  font-size: 1.5em;
+  font-size: 1.8rem; /* 18px - більший заголовок */
   font-weight: 500;
   color: #f5f5f5;
 }

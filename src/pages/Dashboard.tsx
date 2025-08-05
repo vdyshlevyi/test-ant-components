@@ -53,27 +53,26 @@ const statsData = [
 ]
 
 export default function Dashboard() {
-  const { user } = useAuth()
+  const { getUser } = useAuth()
+  const user = getUser()
 
   // Get user display name (user is guaranteed to exist due to AuthGuard)
   const getUserDisplayName = () => {
-    const firstName = user!.first_name || ""
-    const lastName = user!.last_name || ""
+    const firstName = user?.first_name || ""
+    const lastName = user?.last_name || ""
     const fullName = `${firstName} ${lastName}`.trim()
 
-    return fullName || user!.email
+    return fullName || user?.email
   }
 
   // Get user initials for avatar
   const getUserInitials = () => {
-    const firstName = user!.first_name || ""
-    const lastName = user!.last_name || ""
+    const firstName = user?.first_name || ""
+    const lastName = user?.last_name || ""
 
-    if (firstName && lastName) {
-      return `${firstName[0]}${lastName[0]}`.toUpperCase()
-    }
+    if (firstName && lastName) return `${firstName[0]}${lastName[0]}`.toUpperCase()
 
-    return user!.email[0].toUpperCase()
+    return user?.email[0].toUpperCase()
   }
 
   return (
@@ -113,11 +112,11 @@ export default function Dashboard() {
                 <Text strong>{getUserDisplayName()}</Text>
                 <br />
                 <Text type="secondary">
-                  <MailOutlined /> {user!.email}
+                  <MailOutlined /> {user?.email}
                 </Text>
                 <br />
                 <Text type="secondary">
-                  <IdcardOutlined /> ID: {user!.id}
+                  <IdcardOutlined /> ID: {user?.id}
                 </Text>
               </div>
             </Space>
