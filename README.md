@@ -83,7 +83,7 @@ docker-compose exec api python -m scripts.create_admin_user
 This creates an admin user with credentials:
 
 - **Email**: `admin@example.com`
-- **Password**: `admin`
+- **Password**: `123456`
 
 ### 3. Access the application:
 
