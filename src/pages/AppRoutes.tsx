@@ -1,0 +1,94 @@
+import { Routes, Route } from "react-router-dom"
+import LoginPage from "../pages/Login/Login.tsx"
+import { useAuth } from "../hooks/useAuth.ts"
+import { apiClient } from "../api/apiClient.ts"
+import type { ILoginResponse } from "../types/responses.ts"
+import { URLS } from "../api/urls.ts"
+import type { IUser } from "../types/auth.ts"
+import { GuestGuard } from "../auth/GuestGuard.tsx"
+import { ACCESS_TOKEN_KEY } from "../auth/constants.ts"
+import NotFoundPage from "./NotFound.tsx"
+import { AuthGuard } from "../auth/AuthGuard.tsx"
+import Dashboard from "./Dashboard.tsx"
+import Users from "./Users.tsx"
+import { useEffect, useCallback } from "react"
+
+let profileFetched = false
+
+export default function AppRoutes() {
+  const { setUser, getAccessToken, logout } = useAuth()
+
+  const fetchProfile = useCallback(async () => {
+    if (profileFetched) {
+      console.log("Profile already fetched, skipping")
+      return
+    }
+
+    try {
+      console.log("Fetching user profile...")
+      const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+      if (!accessToken || accessToken === "undefined") {
+        console.warn("No access token found in fetchProfile")
+        return
+      }
+
+      const responseJson = await apiClient.get<ILoginResponse>(
+        URLS.users.profile,
+      )
+      const newUser: IUser = {
+        id: responseJson.id,
+        first_name: responseJson.first_name,
+        last_name: responseJson.last_name,
+        email: responseJson.email,
+      }
+      // Update user in state and localStorage
+      setUser(newUser)
+      localStorage.setItem("user", JSON.stringify(newUser))
+      profileFetched = true
+    } catch (err) {
+      console.error("Failed to fetch profile:", err)
+      logout()
+    }
+  }, [setUser, logout])
+
+  // Load profile on component mount, only if token exists
+  useEffect(() => {
+    const accessToken = getAccessToken()
+    if (accessToken && accessToken !== "undefined") {
+      // Then fetch fresh data from server
+      fetchProfile()
+    } else {
+      console.log("No valid access token found, skipping profile fetch")
+    }
+  }, [fetchProfile, getAccessToken])
+
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <GuestGuard>
+            <LoginPage />
+          </GuestGuard>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <AuthGuard>
+            <Dashboard />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <AuthGuard>
+            <Users />
+          </AuthGuard>
+        }
+      />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  )
+}
