@@ -47,6 +47,7 @@ export default function LoginPage() {
           type="email"
           id="email"
           placeholder="Email"
+          autoComplete="email"
           register={register("email", { required: "This field is required." })}
           error={errors.email}
           touched={touchedFields.email}
@@ -56,6 +57,7 @@ export default function LoginPage() {
           type="password"
           id="password"
           placeholder="Password"
+          autoComplete="current-password"
           register={register("password", {
             required: "This field is required.",
             minLength: {

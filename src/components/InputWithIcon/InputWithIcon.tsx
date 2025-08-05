@@ -9,6 +9,7 @@ interface InputWithIconProps {
   register: UseFormRegisterReturn
   error?: FieldError
   touched?: boolean
+  autoComplete?: string
 }
 
 const ICON_PATHS = {
@@ -31,6 +32,7 @@ export default function InputWithIcon({
   register,
   error,
   touched,
+  autoComplete,
 }: InputWithIconProps) {
   return (
     <div className="field">
@@ -50,6 +52,7 @@ export default function InputWithIcon({
           placeholder={placeholder}
           className="input-field"
           type={type}
+          autoComplete={autoComplete}
           required
         />
       </div>

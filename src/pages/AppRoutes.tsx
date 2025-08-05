@@ -11,14 +11,14 @@ import NotFoundPage from "./NotFound.tsx"
 import { AuthGuard } from "../auth/AuthGuard.tsx"
 import Dashboard from "./Dashboard.tsx"
 import Users from "./Users.tsx"
-import { useEffect } from "react"
+import { useEffect, useCallback } from "react"
 
 let profileFetched = false
 
 export default function AppRoutes() {
   const { setUser, getAccessToken, logout } = useAuth()
 
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
     if (profileFetched) {
       console.log("Profile already fetched, skipping")
       return
@@ -49,7 +49,7 @@ export default function AppRoutes() {
       console.error("Failed to fetch profile:", err)
       logout()
     }
-  }
+  }, [setUser, logout])
 
   // Load profile on component mount, only if token exists
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function AppRoutes() {
     } else {
       console.log("No valid access token found, skipping profile fetch")
     }
-  }, [fetchProfile, getAccessToken]) // Empty dependency array - useEffect runs only once on mount
+  }, [fetchProfile, getAccessToken])
 
   return (
     <Routes>
