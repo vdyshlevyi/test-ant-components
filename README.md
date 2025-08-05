@@ -67,6 +67,7 @@ docker-compose up -d
 ```
 
 This will start:
+
 - **Database**: PostgreSQL on `http://localhost:9900`
 - **Backend API**: Python FastAPI on `http://localhost:9901`
 - **Frontend**: React app on `http://localhost:9902`
@@ -80,6 +81,7 @@ docker-compose exec api python -m scripts.create_admin_user
 ```
 
 This creates an admin user with credentials:
+
 - **Email**: `admin@example.com`
 - **Password**: `admin`
 
