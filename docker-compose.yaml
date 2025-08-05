@@ -1,0 +1,74 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16.4-alpine3.19
+    container_name: tupy_db
+    environment:
+      POSTGRES_DB: tupy_backend
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "9900:5432" # Custom port to avoid conflicts
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  api:
+    image: ghcr.io/vdyshlevyi/tupy-backend/tupy-backend:latest
+    container_name: tupy_api
+    platform: linux/amd64
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_DB: tupy_backend
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      DATABASE_URI: "postgresql+asyncpg://postgres:postgres@db:5432/tupy_backend"
+      HOST: 0.0.0.0
+      PORT: 9000
+      DEBUG: "true"
+      SECRET_KEY: "very_secret_key"
+      ORIGINS: '["http://localhost:5173", "http://localhost:9000", "http://localhost:9901", "http://localhost:9902"]'
+    ports:
+      - "9901:9000" # Custom port for Tupy API
+    networks:
+      - app-network
+
+    #   test: ["CMD", "curl", "--fail", "http://127.0.0.1:9000/healthcheck"]
+    #   interval: 10s
+    #   timeout: 10s
+    #   start_period: 30s
+    #   retries: 3
+
+  # Frontend React App
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tupy_frontend
+    depends_on:
+      - api
+    environment:
+      - VITE_BACKEND_URL=http://localhost:9901
+    ports:
+      - "9902:80" # Custom port for Tupy Frontend
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

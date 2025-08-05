@@ -1,4 +1,6 @@
-const API_BASE = "http://localhost:9000/api/v1"
+import { config } from "../config"
+
+const API_BASE = config.apiBase
 
 export const URLS = {
   auth: {
