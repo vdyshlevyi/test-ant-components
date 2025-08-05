@@ -6,7 +6,6 @@ export interface IUser {
 }
 
 export interface IAuthContextType {
-  user: IUser | null
   getUser: () => IUser | null
   setUser: (user: IUser | null) => void
   getAccessToken: () => string | null

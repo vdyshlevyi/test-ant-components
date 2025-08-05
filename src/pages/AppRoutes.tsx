@@ -60,7 +60,7 @@ export default function AppRoutes() {
     } else {
       console.log("No valid access token found, skipping profile fetch")
     }
-  }, []) // Empty dependency array - useEffect runs only once on mount
+  }, [fetchProfile, getAccessToken]) // Empty dependency array - useEffect runs only once on mount
 
   return (
     <Routes>
