@@ -62,7 +62,6 @@ export default function AppRoutes() {
     }
   }, []) // Empty dependency array - useEffect runs only once on mount
 
-
   return (
     <Routes>
       <Route

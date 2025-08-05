@@ -14,4 +14,3 @@ export interface IAuthContextType {
   login: (email: string, password: string) => Promise<void>
   logout: () => void
 }
-

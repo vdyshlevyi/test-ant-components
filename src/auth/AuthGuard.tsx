@@ -11,7 +11,7 @@ export const AuthGuard = ({ children }: { children: ReactNode }) => {
     console.warn("No access token found, redirecting to login.")
     return <Navigate to="/" replace />
   }
-  
+
   // If token exists, render the children components
   return <AuthLayout>{children}</AuthLayout>
 }

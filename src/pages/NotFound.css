@@ -56,7 +56,8 @@
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -69,15 +70,15 @@
   .not-found-container {
     padding: 1rem;
   }
-  
+
   .not-found-container .ant-result {
     padding: 2rem 1.5rem;
   }
-  
+
   .not-found-container .ant-result-title {
     font-size: 3rem !important;
   }
-  
+
   .not-found-container .ant-result-subtitle {
     font-size: 1rem !important;
   }

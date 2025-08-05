@@ -54,28 +54,28 @@ export default function AuthLayout({
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider 
-        trigger={null} 
-        collapsible 
+      <Sider
+        trigger={null}
+        collapsible
         collapsed={collapsed}
-        style={{ position: 'relative' }}
+        style={{ position: "relative" }}
       >
         <div
           style={{
-            height: '64px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            borderBottom: '1px solid #303030',
-            marginBottom: '8px'
+            height: "64px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "white",
+            fontSize: "18px",
+            fontWeight: "bold",
+            borderBottom: "1px solid #303030",
+            marginBottom: "8px",
           }}
         >
           TUPY
         </div>
-        
+
         {/* Main menu */}
         <Menu
           theme="dark"
@@ -87,14 +87,14 @@ export default function AuthLayout({
         />
 
         {/* Logout button at bottom */}
-        <div 
-          style={{ 
-            position: 'absolute',
+        <div
+          style={{
+            position: "absolute",
             bottom: 0,
             left: 0,
             right: 0,
-            padding: '16px',
-            borderTop: '1px solid #303030'
+            padding: "16px",
+            borderTop: "1px solid #303030",
           }}
         >
           <Button
@@ -102,24 +102,24 @@ export default function AuthLayout({
             icon={<LogoutOutlined />}
             onClick={handleLogout}
             style={{
-              width: '100%',
-              textAlign: 'left',
-              color: 'rgba(255, 255, 255, 0.65)',
-              border: 'none',
-              height: '40px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: collapsed ? 'center' : 'flex-start',
+              width: "100%",
+              textAlign: "left",
+              color: "rgba(255, 255, 255, 0.65)",
+              border: "none",
+              height: "40px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: collapsed ? "center" : "flex-start",
             }}
             // TODO(Valerii Dyshlevyi): work with hover effect
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+              e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)"
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent'
+              e.currentTarget.style.backgroundColor = "transparent"
             }}
           >
-            {!collapsed && 'Logout'}
+            {!collapsed && "Logout"}
           </Button>
         </div>
       </Sider>

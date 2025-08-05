@@ -70,7 +70,8 @@ export default function Dashboard() {
     const firstName = user?.first_name || ""
     const lastName = user?.last_name || ""
 
-    if (firstName && lastName) return `${firstName[0]}${lastName[0]}`.toUpperCase()
+    if (firstName && lastName)
+      return `${firstName[0]}${lastName[0]}`.toUpperCase()
 
     return user?.email[0].toUpperCase()
   }

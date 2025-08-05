@@ -12,18 +12,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (savedUser && savedUser !== "undefined") {
       try {
         const parsedUser = JSON.parse(savedUser)
-        
+
         // Validate that the parsed user has required properties
         if (
-          parsedUser && 
-          typeof parsedUser === 'object' &&
-          typeof parsedUser.id === 'number' &&
-          typeof parsedUser.email === 'string' &&
+          parsedUser &&
+          typeof parsedUser === "object" &&
+          typeof parsedUser.id === "number" &&
+          typeof parsedUser.email === "string" &&
           parsedUser.email.length > 0
         ) {
           return parsedUser as IUser
         } else {
-          console.warn("Invalid user data in localStorage, clearing:", parsedUser)
+          console.warn(
+            "Invalid user data in localStorage, clearing:",
+            parsedUser,
+          )
           localStorage.removeItem("user")
           return null
         }
@@ -40,8 +43,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (user) {
       // Validate user data before storing
       if (
-        typeof user.id === 'number' &&
-        typeof user.email === 'string' &&
+        typeof user.id === "number" &&
+        typeof user.email === "string" &&
         user.email.length > 0
       ) {
         localStorage.setItem("user", JSON.stringify(user))
@@ -66,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const responseJson = await apiClient.post<ILoginResponse>(
         URLS.auth.login,
-        { email, password }
+        { email, password },
       )
       const newUser: IUser = {
         id: responseJson.id,
@@ -100,8 +103,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   )
 }

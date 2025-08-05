@@ -11,7 +11,7 @@ interface IFormInput {
 }
 
 export default function LoginPage() {
-  const {getAccessToken, login} = useAuth()
+  const { getAccessToken, login } = useAuth()
   const navigate = useNavigate()
   const {
     register,
