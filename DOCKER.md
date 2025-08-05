@@ -14,16 +14,16 @@
 
 ```bash
 # Запуск всього стеку
-docker-compose up -d
+docker compose up -d
 
 # Запуск з пересборкою
-docker-compose up --build
+docker compose up --build
 
 # Зупинка
-docker-compose down
+docker compose down
 
 # Зупинка з видаленням volumes
-docker-compose down -v
+docker compose down -v
 ```
 
 ### Доступ:
@@ -48,18 +48,18 @@ Backend використовує:
 
 ```bash
 # Переглянути логи всіх сервісів
-docker-compose logs
+docker compose logs
 
 # Логи конкретного сервісу
-docker-compose logs frontend
-docker-compose logs api
-docker-compose logs db
+docker compose logs frontend
+docker compose logs api
+docker compose logs db
 ```
 
 ### Розробка:
 
 Для development рекомендується:
 
-1. Запустити тільки DB через Docker: `docker-compose up db`
+1. Запустити тільки DB через Docker: `docker compose up db`
 2. Backend та Frontend запускати локально
 3. Використовувати `.env.development` для налаштувань

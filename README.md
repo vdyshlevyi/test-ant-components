@@ -63,7 +63,7 @@ This project includes a full-stack Docker setup with PostgreSQL database, Python
 ### 1. Start all services:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 This will start:
@@ -77,7 +77,7 @@ This will start:
 After the containers are running, create an admin user for the backend:
 
 ```bash
-docker-compose exec api python -m scripts.create_admin_user
+docker compose exec api python -m scripts.create_admin_user
 ```
 
 This creates an admin user with credentials:
@@ -93,7 +93,7 @@ This creates an admin user with credentials:
 ### 4. Stop all services:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ---
