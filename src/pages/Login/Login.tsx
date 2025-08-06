@@ -4,6 +4,7 @@ import { useAuth } from "../../hooks/useAuth.ts"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import InputWithIcon from "../../components/InputWithIcon/InputWithIcon.tsx"
+import { getAccessToken } from "../../auth/utils"
 
 interface IFormInput {
   email: string
@@ -11,7 +12,7 @@ interface IFormInput {
 }
 
 export default function LoginPage() {
-  const { getAccessToken, login } = useAuth()
+  const { login } = useAuth()
   const navigate = useNavigate()
   const {
     register,
@@ -25,7 +26,7 @@ export default function LoginPage() {
     if (accessToken && accessToken !== "undefined") {
       navigate("/dashboard", { replace: true })
     }
-  }, [getAccessToken, navigate])
+  }, [navigate])
 
   // Get ready to work with login form
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {

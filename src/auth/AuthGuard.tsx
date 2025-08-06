@@ -1,13 +1,12 @@
 import { Navigate } from "react-router-dom"
 import { type ReactNode } from "react"
-import AuthLayout from "../layouts/AuthLayout.tsx"
-import { useAuth } from "../hooks/useAuth.ts"
+import AuthLayout from "../layouts/AuthLayout/AuthLayout.tsx"
+import { getAccessToken } from "./utils"
 
 export const AuthGuard = ({ children }: { children: ReactNode }) => {
-  const { getAccessToken } = useAuth()
-
   // If no token, redirect to login page
-  if (!getAccessToken() || getAccessToken() === "undefined") {
+  const accessToken = getAccessToken()
+  if (!accessToken || accessToken === "undefined") {
     console.warn("No access token found, redirecting to login.")
     return <Navigate to="/" replace />
   }

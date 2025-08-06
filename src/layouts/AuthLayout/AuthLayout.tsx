@@ -6,9 +6,10 @@ import {
   UserOutlined,
   LogoutOutlined,
 } from "@ant-design/icons"
-import { Button, Layout, Menu, theme } from "antd"
+import { Button, Layout, Menu, theme, Breadcrumb } from "antd"
 import { useLocation, useNavigate } from "react-router-dom"
-import { useAuth } from "../hooks/useAuth"
+import "./AuthLayout.css"
+import { logout } from "../../auth/utils"
 
 const { Header, Sider, Content } = Layout
 
@@ -25,6 +26,55 @@ const MENU_ITEMS = [
   },
 ]
 
+// Generate breadcrumb items based on current path
+const getBreadcrumbItems = (pathname: string) => {
+  const pathSegments = pathname.split("/").filter((segment) => segment !== "")
+
+  const breadcrumbItems: Array<{ title: string; href?: string }> = []
+
+  if (pathSegments.length > 0) {
+    pathSegments.forEach((segment, index) => {
+      const path = "/" + pathSegments.slice(0, index + 1).join("/")
+      const menuItem = MENU_ITEMS.find((item) => item.key === path)
+
+      if (menuItem) {
+        breadcrumbItems.push({
+          title: menuItem.label,
+          // Don't make the current page clickable
+          ...(index < pathSegments.length - 1 ? { href: path } : {}),
+        })
+      } else {
+        // For non-menu items, show parent breadcrumb if it exists
+        if (index > 0) {
+          const parentPath = "/" + pathSegments.slice(0, index).join("/")
+          const parentMenuItem = MENU_ITEMS.find(
+            (item) => item.key === parentPath,
+          )
+
+          if (
+            parentMenuItem &&
+            !breadcrumbItems.some((item) => item.title === parentMenuItem.label)
+          ) {
+            breadcrumbItems.push({
+              title: parentMenuItem.label,
+              href: parentPath,
+            })
+          }
+        }
+
+        // Add current segment
+        breadcrumbItems.push({
+          title: segment.charAt(0).toUpperCase() + segment.slice(1),
+          // Don't make the current page clickable
+          ...(index < pathSegments.length - 1 ? { href: path } : {}),
+        })
+      }
+    })
+  }
+
+  return breadcrumbItems
+}
+
 export default function AuthLayout({
   children,
 }: {
@@ -33,7 +83,6 @@ export default function AuthLayout({
   const [collapsed, setCollapsed] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
-  const { logout } = useAuth()
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
@@ -42,14 +91,12 @@ export default function AuthLayout({
   const selectedKeys = [location.pathname]
 
   // Handle menu item click
-  const handleMenuClick = ({ key }: { key: string }) => {
-    navigate(key)
-  }
+  const handleMenuClick = ({ key }: { key: string }) => navigate(key)
 
   // Handle logout
   const handleLogout = () => {
     logout()
-    navigate("/")
+    navigate("/") // Redirect to login page
   }
 
   return (
@@ -101,23 +148,7 @@ export default function AuthLayout({
             type="text"
             icon={<LogoutOutlined />}
             onClick={handleLogout}
-            style={{
-              width: "100%",
-              textAlign: "left",
-              color: "rgba(255, 255, 255, 0.65)",
-              border: "none",
-              height: "40px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: collapsed ? "center" : "flex-start",
-            }}
-            // TODO(Valerii Dyshlevyi): work with hover effect
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)"
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent"
-            }}
+            className={`logout-button ${collapsed ? "logout-button-collapsed" : "logout-button-expanded"}`}
           >
             {!collapsed && "Logout"}
           </Button>
@@ -145,6 +176,10 @@ export default function AuthLayout({
             borderRadius: borderRadiusLG,
           }}
         >
+          <Breadcrumb
+            style={{ marginBottom: 16 }}
+            items={getBreadcrumbItems(location.pathname)}
+          />
           {children}
         </Content>
       </Layout>

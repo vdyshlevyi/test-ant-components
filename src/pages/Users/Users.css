@@ -1,0 +1,12 @@
+.users-table .ant-pagination {
+  justify-content: center;
+  display: flex;
+}
+
+.users-page {
+  padding: 0;
+}
+
+.users-table {
+  margin-top: 16px;
+}
