@@ -6,7 +6,7 @@ import { getAccessToken } from "./utils"
 export const AuthGuard = ({ children }: { children: ReactNode }) => {
   // If no token, redirect to login page
   const accessToken = getAccessToken()
-  if (!accessToken || accessToken === "undefined") {
+  if (!accessToken) {
     console.warn("No access token found, redirecting to login.")
     return <Navigate to="/" replace />
   }

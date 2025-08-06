@@ -33,7 +33,10 @@ const request = async <TResponse, TBody = unknown>(
     if (response.status === 401) {
       console.warn("Received 401 Unauthorized, logging out user")
       logout()
-      
+
+      // Emit a custom event to trigger navigation
+      window.dispatchEvent(new CustomEvent("auth:unauthorized"))
+
       // Throw a special error type for 401
       throw new UnauthorizedError("Session expired. Please log in again.")
     }

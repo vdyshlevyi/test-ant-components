@@ -3,7 +3,8 @@ import type { IUser } from "../types/auth"
 
 // Token management utilities
 export const getAccessToken = (): string | null => {
-  return localStorage.getItem(ACCESS_TOKEN_KEY)
+  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+  return accessToken && accessToken !== "undefined" ? accessToken : null
 }
 
 export const setAccessToken = (token: string) => {
@@ -31,10 +32,7 @@ export const getUser = (): IUser | null => {
       ) {
         return parsedUser as IUser
       } else {
-        console.warn(
-          "Invalid user data in localStorage, clearing:",
-          parsedUser,
-        )
+        console.warn("Invalid user data in localStorage, clearing:", parsedUser)
         localStorage.removeItem("user")
         return null
       }

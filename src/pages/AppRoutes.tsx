@@ -40,7 +40,6 @@ export default function AppRoutes() {
       }
       // Update user in state and localStorage
       setUser(newUser)
-      localStorage.setItem("user", JSON.stringify(newUser))
       profileFetched = true
     } catch (err) {
       console.error("Failed to fetch profile:", err)

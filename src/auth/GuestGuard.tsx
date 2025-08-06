@@ -4,9 +4,9 @@ import GuestLayout from "../layouts/GuestLayout/GuestLayout"
 import type { ReactNode } from "react"
 
 export function GuestGuard({ children }: { children: ReactNode }) {
-  const user = getAccessToken()
+  const accessToken = getAccessToken()
 
-  if (user) {
+  if (accessToken) {
     console.warn("User is already authenticated, redirecting to dashboard.")
     return <Navigate to="/dashboard" replace />
   }

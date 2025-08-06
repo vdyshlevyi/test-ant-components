@@ -15,7 +15,6 @@ export interface IProfileResponse {
   last_name: string
   email: string
   role: string
-  
 }
 
 export interface IUsersListResponse {

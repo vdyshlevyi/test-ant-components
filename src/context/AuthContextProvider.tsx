@@ -4,11 +4,11 @@ import type { IUser } from "../types/auth"
 import { apiClient } from "../api/apiClient.ts"
 import { URLS } from "../api/urls.ts"
 import type { ILoginResponse } from "../types/responses.ts"
-import { 
-  getUser, 
-  setUser, 
-  getAccessToken, 
-  setAccessToken
+import {
+  getUser,
+  setUser,
+  getAccessToken,
+  setAccessToken,
 } from "../auth/utils.ts"
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

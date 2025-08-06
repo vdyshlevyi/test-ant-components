@@ -109,7 +109,8 @@ export default function UsersPage() {
           current: pagination.current,
           pageSize: pagination.pageSize,
           total: pagination.total,
-          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} users`,
+          showTotal: (total, range) =>
+            `${range[0]}-${range[1]} of ${total} users`,
           onChange: (page, pageSize) => fetchUsers(page, pageSize),
           onShowSizeChange: (_, size) => fetchUsers(1, size), // Reset to first page when page size changes
         }}
