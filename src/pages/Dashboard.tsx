@@ -53,8 +53,7 @@ const statsData = [
 ]
 
 export default function Dashboard() {
-  const { getUser } = useAuth()
-  const user = getUser()
+  const { user } = useAuth()
 
   // Get user display name (user is guaranteed to exist due to AuthGuard)
   const getUserDisplayName = () => {

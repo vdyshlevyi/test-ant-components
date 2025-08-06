@@ -1,23 +1,20 @@
 import { Routes, Route } from "react-router-dom"
 import LoginPage from "../pages/Login/Login.tsx"
-import { useAuth } from "../hooks/useAuth.ts"
 import { apiClient } from "../api/apiClient.ts"
 import type { ILoginResponse } from "../types/responses.ts"
 import { URLS } from "../api/urls.ts"
 import type { IUser } from "../types/auth.ts"
 import { GuestGuard } from "../auth/GuestGuard.tsx"
-import { ACCESS_TOKEN_KEY } from "../auth/constants.ts"
-import NotFoundPage from "./NotFound.tsx"
+import NotFoundPage from "./NotFound/NotFound.tsx"
 import { AuthGuard } from "../auth/AuthGuard.tsx"
 import Dashboard from "./Dashboard.tsx"
-import Users from "./Users.tsx"
+import Users from "./Users/Users.tsx"
 import { useEffect, useCallback } from "react"
+import { getAccessToken, setUser } from "../auth/utils"
 
 let profileFetched = false
 
 export default function AppRoutes() {
-  const { setUser, getAccessToken, logout } = useAuth()
-
   const fetchProfile = useCallback(async () => {
     if (profileFetched) {
       console.log("Profile already fetched, skipping")
@@ -26,7 +23,7 @@ export default function AppRoutes() {
 
     try {
       console.log("Fetching user profile...")
-      const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+      const accessToken = getAccessToken()
       if (!accessToken || accessToken === "undefined") {
         console.warn("No access token found in fetchProfile")
         return
@@ -43,13 +40,12 @@ export default function AppRoutes() {
       }
       // Update user in state and localStorage
       setUser(newUser)
-      localStorage.setItem("user", JSON.stringify(newUser))
       profileFetched = true
     } catch (err) {
       console.error("Failed to fetch profile:", err)
-      logout()
+      // 401 errors are handled automatically by apiClient
     }
-  }, [setUser, logout])
+  }, [])
 
   // Load profile on component mount, only if token exists
   useEffect(() => {
@@ -60,7 +56,7 @@ export default function AppRoutes() {
     } else {
       console.log("No valid access token found, skipping profile fetch")
     }
-  }, [fetchProfile, getAccessToken])
+  }, [fetchProfile])
 
   return (
     <Routes>

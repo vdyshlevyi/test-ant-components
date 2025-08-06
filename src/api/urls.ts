@@ -8,6 +8,7 @@ export const URLS = {
     signUp: `${API_BASE}/authentication/sign-up`,
   },
   users: {
+    list: `${API_BASE}/users`,
     profile: `${API_BASE}/users/profile`,
   },
 }

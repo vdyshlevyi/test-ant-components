@@ -6,10 +6,7 @@ export interface IUser {
 }
 
 export interface IAuthContextType {
-  getUser: () => IUser | null
-  setUser: (user: IUser | null) => void
-  getAccessToken: () => string | null
-  setAccessToken: (token: string) => void
+  user: IUser | null
+  isAuthenticated: boolean
   login: (email: string, password: string) => Promise<void>
-  logout: () => void
 }
