@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom"
 import { getAccessToken } from "./utils"
-import GuestLayout from "../layouts/GuestLayout/GuestLayout"
+import GuestLayout from "../layouts/guest-layout/guest-layout"
 import type { ReactNode } from "react"
 
 export function GuestGuard({ children }: { children: ReactNode }) {

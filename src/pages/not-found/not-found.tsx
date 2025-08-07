@@ -1,5 +1,5 @@
 import { Result } from "antd"
-import "./NotFound.css"
+import "./not-found.css"
 
 export default function NotFoundPage() {
   return (

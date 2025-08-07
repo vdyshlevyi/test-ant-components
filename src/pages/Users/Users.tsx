@@ -2,11 +2,11 @@ import { useState, useEffect } from "react"
 import { Table, Alert, Space } from "antd"
 import { UserOutlined } from "@ant-design/icons"
 import type { ColumnsType } from "antd/es/table"
-import { apiClient } from "../../api/apiClient"
+import { apiClient } from "../../api/api-client"
 import { URLS } from "../../api/urls"
 import type { IUser } from "../../types/auth"
 import type { IUsersListResponse } from "../../types/responses"
-import "./Users.css"
+import styles from "./Users.module.css"
 
 export default function UsersPage() {
   const [users, setUsers] = useState<IUser[]>([])
@@ -88,7 +88,7 @@ export default function UsersPage() {
   ]
 
   return (
-    <div className="users-page">
+    <div className={styles.usersPage}>
       {error && (
         <Alert
           type="error"
@@ -100,7 +100,7 @@ export default function UsersPage() {
       )}
 
       <Table
-        className="users-table"
+        className={styles.usersTable}
         columns={columns}
         dataSource={users}
         loading={loading}
