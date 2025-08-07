@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons"
 import { Button, Layout, Menu, theme, Breadcrumb } from "antd"
 import { useLocation, useNavigate } from "react-router-dom"
-import "./auth-layout.css"
+import "./AuthLayout.css"
 import { logout } from "../../auth/utils"
 
 const { Header, Sider, Content } = Layout

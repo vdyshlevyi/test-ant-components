@@ -1,8 +1,8 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import "./index.css"
-import App from "./app.tsx"
-import { AuthProvider } from "./context/auth-context-provider.tsx"
+import { AuthProvider } from "./context/AuthContextProvider.tsx"
+import App from "./App.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>

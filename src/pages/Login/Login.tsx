@@ -1,9 +1,9 @@
 import "./Login.css"
 import { type SubmitHandler, useForm } from "react-hook-form"
-import { useAuth } from "../../hooks/use-auth.ts"
+import { useAuth } from "../../hooks/useAuth.ts"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
-import InputWithIcon from "../../components/InputWithIcon/input-with-icon.tsx"
+import InputWithIcon from "../../components/InputWithIcon/InputWithIcon.tsx"
 import { getAccessToken } from "../../auth/utils.ts"
 
 interface IFormInput {

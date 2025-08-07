@@ -1,5 +1,5 @@
 import { type FieldError, type UseFormRegisterReturn } from "react-hook-form"
-import "./input-with-icon.css"
+import "./InputWithIcon.css"
 
 interface InputWithIconProps {
   iconType: "email" | "password" | "other"

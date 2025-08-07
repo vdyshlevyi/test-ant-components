@@ -16,7 +16,7 @@ import {
   MailOutlined,
   IdcardOutlined,
 } from "@ant-design/icons"
-import { useAuth } from "../hooks/use-auth"
+import { useAuth } from "../hooks/useAuth"
 
 const { Title, Text } = Typography
 

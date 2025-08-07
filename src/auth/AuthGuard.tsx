@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom"
 import { type ReactNode } from "react"
-import AuthLayout from "../layouts/auth-layout/auth-layout.tsx"
+import AuthLayout from "../layouts/AuthLayout/AuthLayout.tsx"
 import { getAccessToken } from "./utils.ts"
 
 export const AuthGuard = ({ children }: { children: ReactNode }) => {

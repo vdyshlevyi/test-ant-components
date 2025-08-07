@@ -1,7 +1,7 @@
-import { AuthContext } from "./auth-context.tsx"
+import { AuthContext } from "./AuthContext.tsx"
 import { type ReactNode } from "react"
 import type { IUser } from "../types/auth.ts"
-import { apiClient } from "../api/api-client.ts"
+import { apiClient } from "../api/apiClient.ts"
 import { URLS } from "../api/urls.ts"
 import type { ILoginResponse } from "../types/responses.ts"
 import {
