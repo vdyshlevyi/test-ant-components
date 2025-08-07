@@ -1,5 +1,5 @@
 import { AuthContext } from "./AuthContext.tsx"
-import { type ReactNode } from "react"
+import { type ReactNode, useState } from "react"
 import type { IUser } from "../types/auth.ts"
 import { apiClient } from "../api/apiClient.ts"
 import { URLS } from "../api/urls.ts"
@@ -12,6 +12,9 @@ import {
 } from "../auth/utils.ts"
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  // Use state to track user, initialized from localStorage
+  const [user, setUserState] = useState<IUser | null>(() => getUser())
+
   const login = async (email: string, password: string) => {
     try {
       const responseJson = await apiClient.post<ILoginResponse>(
@@ -27,6 +30,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       // Save user and token to localStorage
       setUser(newUser)
       setAccessToken(responseJson.access_token)
+
+      // Update state immediately so components re-render
+      setUserState(newUser)
     } catch (err) {
       console.error("Login failed:", err)
       throw err
@@ -34,7 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const contextValue = {
-    user: getUser(),
+    user, // Use state instead of getUser()
     isAuthenticated: !!getAccessToken(),
     login,
   }

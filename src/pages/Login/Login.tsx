@@ -32,7 +32,9 @@ export default function LoginPage() {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       await login(data.email, data.password)
-      // Redirect to dashboard after successful login
+
+      // User data is now stored in localStorage and context state is updated
+      console.log("Login successful, redirecting to dashboard")
       navigate("/dashboard", { replace: true })
     } catch (error) {
       console.error("Login failed:", error)
