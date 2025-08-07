@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth.ts"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import InputWithIcon from "../../components/InputWithIcon/InputWithIcon.tsx"
-import { getAccessToken } from "../../auth/utils"
+import { getAccessToken } from "../../auth/utils.ts"
 
 interface IFormInput {
   email: string

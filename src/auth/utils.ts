@@ -1,5 +1,6 @@
-import { ACCESS_TOKEN_KEY } from "./constants"
 import type { IUser } from "../types/auth"
+
+const ACCESS_TOKEN_KEY = "access_token"
 
 // Token management utilities
 export const getAccessToken = (): string | null => {

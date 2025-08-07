@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom"
-import LoginPage from "../pages/Login/Login.tsx"
+import LoginPage from "./Login/Login"
 import { apiClient } from "../api/apiClient.ts"
 import type { ILoginResponse } from "../types/responses.ts"
 import { URLS } from "../api/urls.ts"
@@ -7,10 +7,10 @@ import type { IUser } from "../types/auth.ts"
 import { GuestGuard } from "../auth/GuestGuard.tsx"
 import NotFoundPage from "./NotFound/NotFound.tsx"
 import { AuthGuard } from "../auth/AuthGuard.tsx"
-import Dashboard from "./Dashboard.tsx"
-import Users from "./Users/Users.tsx"
+import Dashboard from "./Dashboard"
+import Users from "./Users/Users"
 import { useEffect, useCallback } from "react"
-import { getAccessToken, setUser } from "../auth/utils"
+import { getAccessToken, setUser } from "../auth/utils.ts"
 
 let profileFetched = false
 

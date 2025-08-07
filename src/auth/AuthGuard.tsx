@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom"
 import { type ReactNode } from "react"
 import AuthLayout from "../layouts/AuthLayout/AuthLayout.tsx"
-import { getAccessToken } from "./utils"
+import { getAccessToken } from "./utils.ts"
 
 export const AuthGuard = ({ children }: { children: ReactNode }) => {
   // If no token, redirect to login page
