@@ -14,15 +14,15 @@ export const AuthEventHandler = () => {
     // Handler for unauthorized events
     const handleUnauthorized = () => {
       console.log("Handling unauthorized event, navigating to login")
-      
+
       // Show notification to user
       api.warning({
-        message: 'Session Expired',
-        description: 'Your session has expired. Please log in again.',
-        placement: 'topRight',
+        message: "Session Expired",
+        description: "Your session has expired. Please log in again.",
+        placement: "topRight",
         duration: 5,
       })
-      
+
       navigate("/", { replace: true })
     }
 
