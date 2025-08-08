@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react"
-import { Table, Alert, Space } from "antd"
-import { UserOutlined } from "@ant-design/icons"
+import { Table, Alert, Space, Button, Tag } from "antd"
+import { UserOutlined, UserAddOutlined } from "@ant-design/icons"
+import { useNavigate } from "react-router-dom"
 import type { ColumnsType } from "antd/es/table"
 import { apiClient } from "../../api/apiClient"
 import { URLS } from "../../api/urls"
 import type { IUser } from "../../types/auth"
+import { UserRole } from "../../types/auth"
 import type { IUsersListResponse } from "../../types/responses"
 import styles from "./Users.module.css"
 
 export default function UsersPage() {
+  const navigate = useNavigate()
   const [users, setUsers] = useState<IUser[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -17,6 +20,36 @@ export default function UsersPage() {
     pageSize: 2,
     total: 0,
   })
+
+  const getRoleColor = (role: UserRole): string => {
+    switch (role) {
+      case UserRole.ADMIN:
+        return "red"
+      case UserRole.DISPATCHER:
+        return "blue"
+      case UserRole.COURIER:
+        return "green"
+      case UserRole.CLIENT:
+        return "orange"
+      default:
+        return "default"
+    }
+  }
+
+  const getRoleDisplayName = (role: UserRole): string => {
+    switch (role) {
+      case UserRole.ADMIN:
+        return "Admin"
+      case UserRole.DISPATCHER:
+        return "Dispatcher"
+      case UserRole.COURIER:
+        return "Courier"
+      case UserRole.CLIENT:
+        return "Client"
+      default:
+        return role
+    }
+  }
 
   const fetchUsers = async (page: number = 1, pageSize: number = 2) => {
     try {
@@ -78,6 +111,11 @@ export default function UsersPage() {
       title: "Role",
       dataIndex: "role",
       key: "role",
+      render: (role: UserRole) => (
+        <Tag color={getRoleColor(role)}>
+          {getRoleDisplayName(role)}
+        </Tag>
+      ),
     },
     {
       title: "Email",
@@ -89,6 +127,19 @@ export default function UsersPage() {
 
   return (
     <div className={styles.usersPage}>
+      <div className={styles.header}>
+        <h2>
+          <UserOutlined /> Users
+        </h2>
+        <Button 
+          type="primary" 
+          icon={<UserAddOutlined />}
+          onClick={() => navigate("/users/add")}
+        >
+          Add User
+        </Button>
+      </div>
+
       {error && (
         <Alert
           type="error"
@@ -105,6 +156,12 @@ export default function UsersPage() {
         dataSource={users}
         loading={loading}
         rowKey="id"
+        onRow={(record) => ({
+          onClick: () => {
+            navigate(`/users/${record.id}`)
+          },
+          style: { cursor: 'pointer' },
+        })}
         pagination={{
           current: pagination.current,
           pageSize: pagination.pageSize,

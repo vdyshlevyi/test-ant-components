@@ -9,6 +9,8 @@ export const URLS = {
   },
   users: {
     list: `${API_BASE}/users`,
+    create: `${API_BASE}/users`,
+    view: (userId: number) => `${API_BASE}/users/user/${userId}`,
     profile: `${API_BASE}/users/profile`,
   },
 }

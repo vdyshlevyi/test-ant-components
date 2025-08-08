@@ -27,10 +27,13 @@ const MENU_ITEMS = [
 ]
 
 // Generate breadcrumb items based on current path
-const getBreadcrumbItems = (pathname: string) => {
+const getBreadcrumbItems = (pathname: string, navigate: (path: string) => void) => {
   const pathSegments = pathname.split("/").filter((segment) => segment !== "")
 
-  const breadcrumbItems: Array<{ title: string; href?: string }> = []
+  const breadcrumbItems: Array<{ 
+    title: React.ReactNode
+    href?: string 
+  }> = []
 
   if (pathSegments.length > 0) {
     pathSegments.forEach((segment, index) => {
@@ -38,35 +41,59 @@ const getBreadcrumbItems = (pathname: string) => {
       const menuItem = MENU_ITEMS.find((item) => item.key === path)
 
       if (menuItem) {
+        // This is a menu item (like /users, /dashboard)
         breadcrumbItems.push({
-          title: menuItem.label,
-          // Don't make the current page clickable
-          ...(index < pathSegments.length - 1 ? { href: path } : {}),
+          title: index < pathSegments.length - 1 ? (
+            <a 
+              onClick={(e) => {
+                e.preventDefault()
+                navigate(path)
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              {menuItem.label}
+            </a>
+          ) : menuItem.label,
         })
       } else {
-        // For non-menu items, show parent breadcrumb if it exists
+        // This is not a menu item (like user ID, "add", etc.)
+        // Check if we need to add the parent menu item first
         if (index > 0) {
           const parentPath = "/" + pathSegments.slice(0, index).join("/")
-          const parentMenuItem = MENU_ITEMS.find(
-            (item) => item.key === parentPath,
-          )
-
-          if (
-            parentMenuItem &&
-            !breadcrumbItems.some((item) => item.title === parentMenuItem.label)
-          ) {
+          const parentMenuItem = MENU_ITEMS.find((item) => item.key === parentPath)
+          
+          if (parentMenuItem && breadcrumbItems.length === 0) {
+            // Add parent menu item if it hasn't been added yet
             breadcrumbItems.push({
-              title: parentMenuItem.label,
-              href: parentPath,
+              title: (
+                <a 
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate(parentPath)
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {parentMenuItem.label}
+                </a>
+              ),
             })
           }
         }
 
-        // Add current segment
+        // Add current segment (don't make it clickable if it's the last one)
+        const segmentTitle = segment.charAt(0).toUpperCase() + segment.slice(1)
         breadcrumbItems.push({
-          title: segment.charAt(0).toUpperCase() + segment.slice(1),
-          // Don't make the current page clickable
-          ...(index < pathSegments.length - 1 ? { href: path } : {}),
+          title: index < pathSegments.length - 1 ? (
+            <a 
+              onClick={(e) => {
+                e.preventDefault()
+                navigate(path)
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              {segmentTitle}
+            </a>
+          ) : segmentTitle,
         })
       }
     })
@@ -178,7 +205,7 @@ export default function AuthLayout({
         >
           <Breadcrumb
             style={{ marginBottom: 16 }}
-            items={getBreadcrumbItems(location.pathname)}
+            items={getBreadcrumbItems(location.pathname, navigate)}
           />
           {children}
         </Content>

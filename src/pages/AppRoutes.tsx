@@ -9,6 +9,8 @@ import NotFoundPage from "./NotFound/NotFound.tsx"
 import { AuthGuard } from "../auth/AuthGuard.tsx"
 import Dashboard from "./Dashboard"
 import Users from "./Users/Users"
+import ViewUser from "./ViewUser/ViewUser"
+import AddUser from "./AddUser/AddUser"
 import { useEffect, useCallback } from "react"
 import { getAccessToken, setUser } from "../auth/utils.ts"
 
@@ -37,6 +39,7 @@ export default function AppRoutes() {
         first_name: responseJson.first_name,
         last_name: responseJson.last_name,
         email: responseJson.email,
+        role: responseJson.role,
       }
       // Update user in state and localStorage
       setUser(newUser)
@@ -81,6 +84,22 @@ export default function AppRoutes() {
         element={
           <AuthGuard>
             <Users />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/users/add"
+        element={
+          <AuthGuard>
+            <AddUser />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/users/:userId"
+        element={
+          <AuthGuard>
+            <ViewUser />
           </AuthGuard>
         }
       />
