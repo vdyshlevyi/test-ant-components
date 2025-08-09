@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Descriptions, Button, Spin, Alert, Tag } from "antd"
-import {
-  UserOutlined,
-  ArrowLeftOutlined,
-  EditOutlined,
-} from "@ant-design/icons"
+import { UserOutlined, EditOutlined } from "@ant-design/icons"
 import { apiClient } from "../../api/apiClient"
 import { URLS } from "../../api/urls"
 import type { IUser } from "../../types/auth"

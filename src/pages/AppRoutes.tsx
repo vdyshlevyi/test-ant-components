@@ -3,7 +3,7 @@ import LoginPage from "./Login/Login"
 import { apiClient } from "../api/apiClient.ts"
 import type { ILoginResponse } from "../types/responses.ts"
 import { URLS } from "../api/urls.ts"
-import type { IUser } from "../types/auth.ts"
+import type { IUser, UserRole } from "../types/auth.ts"
 import { GuestGuard } from "../auth/GuestGuard.tsx"
 import NotFoundPage from "./NotFound/NotFound.tsx"
 import { AuthGuard } from "../auth/AuthGuard.tsx"
@@ -39,7 +39,7 @@ export default function AppRoutes() {
         first_name: responseJson.first_name,
         last_name: responseJson.last_name,
         email: responseJson.email,
-        role: responseJson.role,
+        role: responseJson.role as UserRole,
       }
       // Update user in state and localStorage
       setUser(newUser)

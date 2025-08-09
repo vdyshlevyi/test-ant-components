@@ -1,6 +1,6 @@
 import { AuthContext } from "./AuthContext.tsx"
 import { type ReactNode, useState } from "react"
-import type { IUser } from "../types/auth.ts"
+import type { IUser, UserRole } from "../types/auth.ts"
 import { apiClient } from "../api/apiClient.ts"
 import { URLS } from "../api/urls.ts"
 import type { ILoginResponse } from "../types/responses.ts"
@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         first_name: responseJson.first_name,
         last_name: responseJson.last_name,
         email: responseJson.email,
+        role: responseJson.role as UserRole,
       }
       // Save user and token to localStorage
       setUser(newUser)
