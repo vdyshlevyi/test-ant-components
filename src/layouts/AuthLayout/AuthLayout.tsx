@@ -27,12 +27,15 @@ const MENU_ITEMS = [
 ]
 
 // Generate breadcrumb items based on current path
-const getBreadcrumbItems = (pathname: string, navigate: (path: string) => void) => {
+const getBreadcrumbItems = (
+  pathname: string,
+  navigate: (path: string) => void,
+) => {
   const pathSegments = pathname.split("/").filter((segment) => segment !== "")
 
-  const breadcrumbItems: Array<{ 
+  const breadcrumbItems: Array<{
     title: React.ReactNode
-    href?: string 
+    href?: string
   }> = []
 
   if (pathSegments.length > 0) {
@@ -43,35 +46,40 @@ const getBreadcrumbItems = (pathname: string, navigate: (path: string) => void) 
       if (menuItem) {
         // This is a menu item (like /users, /dashboard)
         breadcrumbItems.push({
-          title: index < pathSegments.length - 1 ? (
-            <a 
-              onClick={(e) => {
-                e.preventDefault()
-                navigate(path)
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              {menuItem.label}
-            </a>
-          ) : menuItem.label,
+          title:
+            index < pathSegments.length - 1 ? (
+              <a
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate(path)
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {menuItem.label}
+              </a>
+            ) : (
+              menuItem.label
+            ),
         })
       } else {
         // This is not a menu item (like user ID, "add", etc.)
         // Check if we need to add the parent menu item first
         if (index > 0) {
           const parentPath = "/" + pathSegments.slice(0, index).join("/")
-          const parentMenuItem = MENU_ITEMS.find((item) => item.key === parentPath)
-          
+          const parentMenuItem = MENU_ITEMS.find(
+            (item) => item.key === parentPath,
+          )
+
           if (parentMenuItem && breadcrumbItems.length === 0) {
             // Add parent menu item if it hasn't been added yet
             breadcrumbItems.push({
               title: (
-                <a 
+                <a
                   onClick={(e) => {
                     e.preventDefault()
                     navigate(parentPath)
                   }}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                 >
                   {parentMenuItem.label}
                 </a>
@@ -83,17 +91,20 @@ const getBreadcrumbItems = (pathname: string, navigate: (path: string) => void) 
         // Add current segment (don't make it clickable if it's the last one)
         const segmentTitle = segment.charAt(0).toUpperCase() + segment.slice(1)
         breadcrumbItems.push({
-          title: index < pathSegments.length - 1 ? (
-            <a 
-              onClick={(e) => {
-                e.preventDefault()
-                navigate(path)
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              {segmentTitle}
-            </a>
-          ) : segmentTitle,
+          title:
+            index < pathSegments.length - 1 ? (
+              <a
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate(path)
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {segmentTitle}
+              </a>
+            ) : (
+              segmentTitle
+            ),
         })
       }
     })

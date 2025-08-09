@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Descriptions, Button, Spin, Alert, Tag } from "antd"
-import { UserOutlined, ArrowLeftOutlined, EditOutlined } from "@ant-design/icons"
+import {
+  UserOutlined,
+  ArrowLeftOutlined,
+  EditOutlined,
+} from "@ant-design/icons"
 import { apiClient } from "../../api/apiClient"
 import { URLS } from "../../api/urls"
 import type { IUser } from "../../types/auth"
@@ -56,12 +60,16 @@ export default function ViewUser() {
       try {
         setLoading(true)
         setError(null)
-        
-        const userData = await apiClient.get<IUser>(URLS.users.view(parseInt(userId)))
+
+        const userData = await apiClient.get<IUser>(
+          URLS.users.view(parseInt(userId)),
+        )
         setUser(userData)
       } catch (err) {
         console.error("Failed to fetch user:", err)
-        setError(err instanceof Error ? err.message : "Failed to load user data")
+        setError(
+          err instanceof Error ? err.message : "Failed to load user data",
+        )
       } finally {
         setLoading(false)
       }
@@ -124,25 +132,21 @@ export default function ViewUser() {
         <h2>
           <UserOutlined /> {`${user.first_name} ${user.last_name}`}
         </h2>
-        
+
         <Descriptions
           bordered
           column={1}
           size="middle"
-          labelStyle={{ fontWeight: 600, width: '150px' }}
+          labelStyle={{ fontWeight: 600, width: "150px" }}
         >
-          <Descriptions.Item label="User ID">
-            {user.id}
-          </Descriptions.Item>
+          <Descriptions.Item label="User ID">{user.id}</Descriptions.Item>
           <Descriptions.Item label="First Name">
             {user.first_name}
           </Descriptions.Item>
           <Descriptions.Item label="Last Name">
             {user.last_name}
           </Descriptions.Item>
-          <Descriptions.Item label="Email">
-            {user.email}
-          </Descriptions.Item>
+          <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
           <Descriptions.Item label="Role">
             <Tag color={getRoleColor(user.role)}>
               {getRoleDisplayName(user.role)}
@@ -156,11 +160,7 @@ export default function ViewUser() {
 
       {/* Actions */}
       <div className={styles.actions}>
-        <Button 
-          type="primary" 
-          icon={<EditOutlined />} 
-          disabled
-        >
+        <Button type="primary" icon={<EditOutlined />} disabled>
           Edit User
         </Button>
       </div>

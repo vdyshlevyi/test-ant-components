@@ -26,12 +26,12 @@ export default function AddUser() {
     try {
       setLoading(true)
       setError(null)
-      
+
       // Remove password_confirm from the payload as it's only for validation
-      const { password_confirm, ...payload } = values
-      
+      const { password_confirm: _, ...payload } = values
+
       await apiClient.post(URLS.users.create, payload)
-      
+
       message.success("User created successfully!")
       navigate("/users")
     } catch (err) {
@@ -49,9 +49,9 @@ export default function AddUser() {
   return (
     <div className={styles.addUserPage}>
       <div className={styles.header}>
-        <Button 
-          type="text" 
-          icon={<ArrowLeftOutlined />} 
+        <Button
+          type="text"
+          icon={<ArrowLeftOutlined />}
           onClick={handleBack}
           className={styles.backButton}
         >
@@ -88,7 +88,7 @@ export default function AddUser() {
             rules={[
               { required: true, message: "Please enter the first name" },
               { min: 2, message: "First name must be at least 2 characters" },
-              { max: 50, message: "First name cannot exceed 50 characters" }
+              { max: 50, message: "First name cannot exceed 50 characters" },
             ]}
           >
             <Input placeholder="Enter first name" />
@@ -100,7 +100,7 @@ export default function AddUser() {
             rules={[
               { required: true, message: "Please enter the last name" },
               { min: 2, message: "Last name must be at least 2 characters" },
-              { max: 50, message: "Last name cannot exceed 50 characters" }
+              { max: 50, message: "Last name cannot exceed 50 characters" },
             ]}
           >
             <Input placeholder="Enter last name" />
@@ -111,7 +111,7 @@ export default function AddUser() {
             name="email"
             rules={[
               { required: true, message: "Please enter the email address" },
-              { type: "email", message: "Please enter a valid email address" }
+              { type: "email", message: "Please enter a valid email address" },
             ]}
           >
             <Input placeholder="Enter email address" />
@@ -120,13 +120,13 @@ export default function AddUser() {
           <Form.Item
             label="Role"
             name="role"
-            rules={[
-              { required: true, message: "Please select a role" }
-            ]}
+            rules={[{ required: true, message: "Please select a role" }]}
           >
             <Select placeholder="Select a role">
               <Select.Option value={UserRole.ADMIN}>Admin</Select.Option>
-              <Select.Option value={UserRole.DISPATCHER}>Dispatcher</Select.Option>
+              <Select.Option value={UserRole.DISPATCHER}>
+                Dispatcher
+              </Select.Option>
               <Select.Option value={UserRole.COURIER}>Courier</Select.Option>
               <Select.Option value={UserRole.CLIENT}>Client</Select.Option>
             </Select>
@@ -138,10 +138,11 @@ export default function AddUser() {
             rules={[
               { required: true, message: "Please enter a password" },
               { min: 8, message: "Password must be at least 8 characters" },
-              { 
+              {
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-                message: "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-              }
+                message:
+                  "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+              },
             ]}
           >
             <Input.Password placeholder="Enter password" />
@@ -150,15 +151,15 @@ export default function AddUser() {
           <Form.Item
             label="Confirm Password"
             name="password_confirm"
-            dependencies={['password']}
+            dependencies={["password"]}
             rules={[
               { required: true, message: "Please confirm the password" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
+                  if (!value || getFieldValue("password") === value) {
                     return Promise.resolve()
                   }
-                  return Promise.reject(new Error('Passwords do not match'))
+                  return Promise.reject(new Error("Passwords do not match"))
                 },
               }),
             ]}
@@ -167,9 +168,9 @@ export default function AddUser() {
           </Form.Item>
 
           <Form.Item className={styles.submitSection}>
-            <Button 
-              type="primary" 
-              htmlType="submit" 
+            <Button
+              type="primary"
+              htmlType="submit"
               loading={loading}
               size="large"
               block

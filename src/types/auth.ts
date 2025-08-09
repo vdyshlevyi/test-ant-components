@@ -1,8 +1,8 @@
 export enum UserRole {
   ADMIN = "ADMIN",
-  DISPATCHER = "DISPATCHER", 
+  DISPATCHER = "DISPATCHER",
   COURIER = "COURIER",
-  CLIENT = "CLIENT"
+  CLIENT = "CLIENT",
 }
 
 export interface IUser {

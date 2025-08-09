@@ -112,9 +112,7 @@ export default function UsersPage() {
       dataIndex: "role",
       key: "role",
       render: (role: UserRole) => (
-        <Tag color={getRoleColor(role)}>
-          {getRoleDisplayName(role)}
-        </Tag>
+        <Tag color={getRoleColor(role)}>{getRoleDisplayName(role)}</Tag>
       ),
     },
     {
@@ -131,8 +129,8 @@ export default function UsersPage() {
         <h2>
           <UserOutlined /> Users
         </h2>
-        <Button 
-          type="primary" 
+        <Button
+          type="primary"
           icon={<UserAddOutlined />}
           onClick={() => navigate("/users/add")}
         >
@@ -160,7 +158,7 @@ export default function UsersPage() {
           onClick: () => {
             navigate(`/users/${record.id}`)
           },
-          style: { cursor: 'pointer' },
+          style: { cursor: "pointer" },
         })}
         pagination={{
           current: pagination.current,
